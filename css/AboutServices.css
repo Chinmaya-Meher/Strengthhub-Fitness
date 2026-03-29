@@ -1,0 +1,268 @@
+/* =========================================
+   🔥 1. GLOBAL & BODY RESET
+   ========================================= */
+body {
+  margin: 0;
+  background-color: black;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+}
+
+/* Fixed Background handling */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/gym-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  z-index: -2;
+}
+
+/* Dark Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7), 
+    rgba(0, 0, 0, 0.9)
+  );
+  z-index: -1;
+}
+
+/* =========================================
+   🔥 2. WHO SECTION
+   ========================================= */
+.who {
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 10%; /* Responsive padding */
+  gap: 40px;
+}
+
+.who-left {
+  flex: 1;
+  max-width: 850px;
+}
+
+.who-left h5 {
+  color: #ff6b00;
+  letter-spacing: 3px;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.who-left h2 {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 800;
+  margin: 15px 0;
+  line-height: 1.1;
+}
+
+.who-left p {
+  color: #ccc;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.who-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.stats {
+  display: flex;
+  gap: clamp(30px, 5vw, 70px);
+}
+
+.stat h1 {
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 800;
+}
+
+.stat p {
+  color: #bbb;
+  font-size: 14px;
+}
+
+/* =========================================
+   🔥 3. SERVICES GRID
+   ========================================= */
+.services {
+  padding: 60px 10%;
+}
+
+.services h2 {
+  margin-bottom: 40px;
+  font-size: 30px;
+  text-transform: uppercase;
+  border-left: 5px solid #ff6b00;
+  padding-left: 20px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* 🔥 THE CRAZY CARD */
+.service-card {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Shimmer/Sweep Effect (Desktop Only - hidden on mobile for performance) */
+.service-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: skewX(-20deg);
+  transition: 0.6s;
+  z-index: 4;
+}
+
+.service-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5) contrast(1.2) grayscale(0.6);
+  transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1), filter 0.5s ease;
+}
+
+/* Info Box (Glassmorphism) */
+.service-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 5;
+  transform: translateY(80px); /* Hidden by default on desktop */
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.service-info h3 { font-size: 22px; margin-bottom: 5px; }
+
+.service-info p {
+  font-size: 14px;
+  color: #ddd;
+  margin-bottom: 15px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s ease 0.1s;
+}
+
+.service-info button {
+  width: 100%;
+  background: #ff6b00;
+  border: none;
+  color: white;
+  padding: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 8px;
+  opacity: 0;
+  cursor: pointer;
+  transition: all 0.5s ease 0.2s;
+}
+
+/* =========================================
+   🔥 4. DESKTOP HOVER STATES
+   ========================================= */
+@media (min-width: 1025px) {
+  .service-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 107, 0, 0.2);
+    border-color: #ff6b00;
+  }
+  .service-card:hover::after { left: 150%; }
+  .service-card:hover img {
+    transform: scale(1.1);
+    filter: brightness(0.8) grayscale(0);
+  }
+  .service-card:hover .service-info { transform: translateY(0); }
+  .service-card:hover .service-info p,
+  .service-card:hover .service-info button {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   📱 5. MOBILE & TABLET OPTIMIZATIONS
+   ========================================= */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .who {
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 5%;
+  }
+  .who-right { justify-content: center; width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: 30px;
+  }
+  
+  .services h2 { font-size: 26px; text-align: center; }
+
+  .service-card {
+    height: 380px; /* Slightly shorter for mobile screens */
+  }
+
+  /* Force "Hover" state on mobile so content is always visible */
+  .service-info {
+    transform: translateY(0);
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    backdrop-filter: blur(5px);
+  }
+
+  .service-info p, .service-info button {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-card img {
+    filter: brightness(0.7) grayscale(0);
+  }
+
+  .stats {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
